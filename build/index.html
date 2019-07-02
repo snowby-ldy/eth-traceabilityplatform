@@ -1,0 +1,406 @@
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Tracking Platform Test</title>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <style>
+    .margin-top-1 {
+      margin-top: 1em;
+    }
+
+    a {
+      color: #339900;
+      text-decoration: none
+    }
+
+    a:focus,
+    a:hover {
+      color: #339900;
+      text-decoration: underline
+    }
+  </style>
+</head>
+
+<body class="container" style="width:1600px;">
+  <h2 style="text-align:center">Tracking Platform Test</h2>
+  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#sectionA" id="home_tab"><i class="fa fa-university"></i> Register Product</a>
+    </li>
+    <li><a data-toggle="tab" href="#sectionB" id="product_tab"><i class="fa fa-user"></i> Add Batch</a></li>
+    <li><a data-toggle="tab" href="#sectionC" id="account_tab"><i class="fa fa-user"></i> Update Transaction</a></li>
+  </ul>
+  <div class="tab-content">
+    <div id="sectionA" class="tab-pane fade in active">
+      <div class="panel panel-success margin-top-1">
+        <div class="panel-heading">
+          <h3 class="panel-title">Platform Information</h3>
+        </div>
+        <div class="panel-body">
+          <table class="table table-striped">
+            <tbody>
+              <tr>
+                <td>Platform Address:</td>
+                <td colspan="2" id="plantformAddressA"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <h3 class="panel-title">Registered Products and Materials</h3>
+        </div>
+        <div class="panel-body">
+          <div style="height: 200px;overflow:scroll;">
+            <table class="table table-striped">
+              <tr>
+                <th>No.</th>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Materials</th>
+                <th>Owner</th>
+                <th>BAC Address</th>
+                <th>Timestamp</th>
+              </tr>
+              <tbody id="productListA">
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <h3 class="panel-title">Register Product or Material</h3>
+        </div>
+        <div class="panel-body">
+          <table class="table table-striped">
+            <tbody>
+              <tr>
+                <td>Product Name:</td>
+                <td>
+                  <input type="text" class="form-control" id="productNameA" placeholder="product name(3 bit at least)">
+                </td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td>Material Name:</td>
+                <td>
+                  <input type="text" class="form-control" id="materialNameA" placeholder="material name(3 bit at least)">
+                </td>
+              </tr>
+              <tr>
+                <td>Product Code:</td>
+                <td>
+                  <input type="text" class="form-control" id="productCodeA" placeholder="product code(13 bit)">
+                </td>
+                <td></td>
+                <td>Material Code:</td>
+                <td>
+                  <input type="text" class="form-control" id="materialCodeA" placeholder="material code(9 bit)">
+                </td>
+              </tr>
+              <tr>
+                <td>Materials:</td>
+                <td>
+                  <input type="text" class="form-control" id="rawMaterialsA" placeholder="materials">
+                </td>
+                <td></td>
+                <td colspan="2" style="text-align:center">
+                  <button id="registerMaterialBtnA" class="btn btn-success">Register Material</button>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" style="text-align:center">
+                  <button id="registerProductBtnA" class="btn btn-success">Register Product</button>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <h3 class="panel-title">Add or Remove User</h3>
+        </div>
+        <div class="panel-body">
+          <table class="table table-striped">
+            <tbody>
+              <tr>
+                <td>Address:</td>
+                <td>
+                  <input type="text" class="form-control" id="userAddressA" placeholder="user address">
+                </td>
+                <td id="checkResultA"></td>
+              </tr>
+              <tr>
+                <td style="text-align:center">
+                  <button id="addBtnA" class="btn btn-success">Add</button>
+                </td>
+                <td style="text-align:center">
+                  <button id="removeBtnA" class="btn btn-success">Remove</button>
+                </td>
+                <td style="text-align:center">
+                  <button id="checkBtnA" class="btn btn-success">Check</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div id="sectionB" class="tab-pane fade">
+      <div class="panel panel-success margin-top-1">
+        <div class="panel-heading">
+          <h3 class="panel-title">Product Information</h3>
+        </div>
+        <div class="panel-body">
+          <table class="table table-striped">
+            <tbody>
+
+              <tr>
+                <td>Product Code:</td>
+                <td>
+                  <input type="text" class="form-control" id="productCodeB" placeholder="product code">
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" style="text-align:center">
+                  <button id="okBtnB" class="btn btn-success">OK</button>
+                </td>
+              </tr>
+              <tr>
+                <td>Product Name:</td>
+                <td id="productNameB"></td>
+              </tr>
+              <tr>
+                <td>Materials:</td>
+                <td id="rawMaterialsB"></td>
+              </tr>
+              <tr>
+                <td>Product Owner:</td>
+                <td id="memberAddressB"></td>
+              </tr>
+              <tr>
+                <td>BAC Address:</td>
+                <td id="productAddressB"></td>
+              </tr>
+              <tr>
+                <td>Registry Date:</td>
+                <td id="registryTimeB"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <h3 class="panel-title"> Added Batches</h3>
+        </div>
+        <div class="panel-body">
+          <div style="height: 200px;overflow:scroll;">
+            <table class="table table-striped">
+              <tr>
+                <th>No.</th>
+                <th>Batch Number</th>
+                <th>Material Batch</th>
+                <th>Manager</th>
+                <th>TUC Address</th>
+                <th>Timestamp</th>
+              </tr>
+              <tbody id="batchListB">
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <h3 class="panel-title">Add Batch</h3>
+        </div>
+        <div class="panel-body">
+          <table class="table table-striped">
+            <tbody>
+              <tr>
+                <td>Batch Number:</td>
+                <td>
+                  <input type="text" class="form-control" id="productBatchB" placeholder="product batch number">
+                </td>
+              </tr>
+              <tr>
+                <td>Material Batch:</td>
+                <td>
+                  <input type="text" class="form-control" id="materialBatchB" placeholder="material batch">
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" style="text-align:center">
+                  <button id="updateBtnB" class="btn btn-success">Add</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <h3 class="panel-title">Add or Remove User</h3>
+        </div>
+        <div class="panel-body">
+          <table class="table table-striped">
+            <tbody>
+              <tr>
+                <td>Address:</td>
+                <td>
+                  <input type="text" class="form-control" id="userAddressB" placeholder="user address">
+                </td>
+                <td id="checkResultB"></td>
+              </tr>
+              <tr>
+                <td style="text-align:center">
+                  <button id="addBtnB" class="btn btn-success">Add</button>
+                </td>
+                <td style="text-align:center">
+                  <button id="removeBtnB" class="btn btn-success">Remove</button>
+                </td>
+                <td style="text-align:center">
+                  <button id="checkBtnB" class="btn btn-success">Check</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div id="sectionC" class="tab-pane fade">
+      <div class="panel panel-success margin-top-1">
+        <div class="panel-heading">
+          <h3 class="panel-title">Transaction Search</h3>
+        </div>
+        <div class="panel-body">
+          <table class="table table-striped">
+            <tbody>
+
+              <tr>
+                <td>Product Code:</td>
+                <td>
+                  <input type="text" class="form-control" id="productCodeC" placeholder="product code">
+                </td>
+              </tr>
+              <tr>
+                <td>Batch Number:</td>
+                <td>
+                  <input type="text" class="form-control" id="productBatchC" placeholder="batch number">
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" style="text-align:center">
+                  <button id="okBtnC" class="btn btn-success">OK</button>
+                </td>
+              </tr>
+              <tr>
+                <td>TUC Address:</td>
+                <td id="batchAddressC"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <h3 class="panel-title">Transaction List</h3>
+        </div>
+        <div class="panel-body">
+          <div style="height: 200px;overflow:scroll;">
+            <table class="table table-striped">
+              <tr>
+                <th>No.</th>
+                <th>Tx Hash</th>
+                <th>Previous Tx</th>
+                <th>Sender</th>
+                <th>Receiver</th>
+                <th>Timestamp</th>
+              </tr>
+              <tbody id="transactionListC">
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <h3 class="panel-title">Update Transaction</h3>
+        </div>
+        <div class="panel-body">
+          <table class="table table-striped">
+            <tbody>
+              <tr>
+                <td>Previous Tx:</td>
+                <td>
+                  <input type="text" class="form-control" id="referenceTxC" placeholder="reference tx">
+                </td>
+              </tr>
+              <tr>
+                <td>Receiver:</td>
+                <td>
+                  <input type="text" class="form-control" id="receiverC" placeholder="receiver address">
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" style="text-align:center">
+                  <button id="addBtnC" class="btn btn-success">Update</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <h3 class="panel-title">Add or Remove User</h3>
+        </div>
+        <div class="panel-body">
+          <table class="table table-striped">
+            <tbody>
+              <tr>
+                <td>Address:</td>
+                <td>
+                  <input type="text" class="form-control" id="userAddressC" placeholder="user address">
+                </td>
+                <td id="checkResultC"></td>
+              </tr>
+              <tr>
+                <td style="text-align:center">
+                  <button id="addUserBtnC" class="btn btn-success">Add</button>
+                </td>
+                <td style="text-align:center">
+                  <button id="removeBtnC" class="btn btn-success">Remove</button>
+                </td>
+                <td style="text-align:center">
+                  <button id="checkBtnC" class="btn btn-success">Check</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="app.js"></script>
+
+</html>
