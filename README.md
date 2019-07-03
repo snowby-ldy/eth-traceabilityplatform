@@ -51,10 +51,10 @@
 
 2. 部署合约
 
-   进入eth-test目录
+   进入 eth-traceabilityplatform 目录
 
    ```
-   $ cd eth-test
+   $ cd eth-traceabilityplatform
    ```
 
    安装依赖
@@ -88,7 +88,7 @@
 
    合约部署完成后就可以开始调用界面了
 
-3. 运行eth-test Dapps
+3. 运行 eth-traceabilityplatform Dapps
 
    首先进入`build/`目录
 
@@ -96,4 +96,4 @@
    cd ./build
    ```
 
-   在浏览器是打开index.html 页面，就可以开始体验eth-test了！
+   在浏览器打开 build/index.html 页面，就可以开始体验 eth-traceabilityplatform 了！
