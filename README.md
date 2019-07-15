@@ -1,14 +1,14 @@
-安装教程：
+Installation Tutorial:
 
-1. testRPC安装
+1. testRPC install
 
-   我们使用testrpc作为项目的测试链，首先运行以下命令安装testrpc
+   We use testrpc as the test chain for the project. First run the following command to install testrpc.
 
    ```
    $ npm install -g ethereumjs-testrpc
    ```
 
-   安装完成后启动testrpc，执行以下命令
+   Start testrpc after the installation is complete, execute the following command
 
    ```
    $ testrpc -m 'silver village coyote camera write pact bomb skirt rabbit visit forget account'
@@ -49,21 +49,21 @@
    Listening on localhost:8545
    ```
 
-2. 部署合约
+2. Contract deploy
 
-   进入 eth-traceabilityplatform 目录
+   Enter the `eth-traceabilityplatform` directory
 
    ```
    $ cd eth-traceabilityplatform
    ```
 
-   安装依赖
+   Install dependence
 
    ```
    $ npm install
    ```
 
-   部署合约
+   Deploy contract
 
    ```
    $ truffle migrate
@@ -86,14 +86,14 @@
    Saving artifacts...
    ```
 
-   合约部署完成后就可以开始调用界面了
+   After the contract is deployed, you can start calling the interface.
 
-3. 运行 eth-traceabilityplatform Dapps
+3. Run eth-traceabilityplatform Dapps
 
-   首先进入`build/`目录
+   First enter the `build/` directory
 
    ```
    cd ./build
    ```
 
-   在浏览器打开 build/index.html 页面，就可以开始体验 eth-traceabilityplatform 了！
+   Open the `build/index.html` page in your browser and you're ready to experience eth-traceabilityplatform!
