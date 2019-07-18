@@ -8,7 +8,7 @@ Installation Tutorial:
    $ npm install -g ethereumjs-testrpc
    ```
 
-   Start testrpc after the installation is complete, execute the following command
+   Start testrpc after the installation is complete, execute the following command.
 
    ```
    $ testrpc -m 'silver village coyote camera write pact bomb skirt rabbit visit forget account'
@@ -96,4 +96,4 @@ Installation Tutorial:
    cd ./build
    ```
 
-   Open the `build/index.html` page in your browser and you're ready to experience eth-traceabilityplatform!
+   Open the `index.html` page in your browser and you're ready to experience eth-traceabilityplatform!

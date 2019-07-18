@@ -1,4 +1,4 @@
-//部署好的合约地址
+// Deployed PRC contract address
 var prcAddress = "0x9bdb8bcb4eb5ce1fbaf696159aec85f51491992c";
 var newBAC;
 var newTUC;
@@ -7,7 +7,7 @@ var tucAddress;
 
 var defaultGas = 4700000;
 
-// 注册产品
+// Register Product
 function productRegister() {
   var prcInstance;
   var productName = $("#productNameA").val();
@@ -35,6 +35,7 @@ function productRegister() {
   });
 }
 
+// Register raw material
 function materialRegister() {
   var prcInstance;
   var materialName = $("#materialNameA").val();
@@ -60,6 +61,7 @@ function materialRegister() {
   });
 }
 
+// Get product information by id
 function getRegisterProduct(id) {
   return PRC.at(prcAddress).then(function(instance) {
     prcInstance = instance;
@@ -77,7 +79,7 @@ function getRegisterProduct(id) {
   });
 }
 
-// 微博平台上所有注册用户
+// The number of all registered products on the platform
 function getTotalRegisterProduct() {
   return PRC.at(prcAddress).then(function(instance) {
     prcInstance = instance;
@@ -87,8 +89,7 @@ function getTotalRegisterProduct() {
   });
 }
 
-//查看平台所有已注册的微博账户
-// {id:1,name:"",address:""}
+// All registered products of the platform
 async function getAllRegister() {
   let products = [];
   let total = await getTotalRegisterProduct();
@@ -99,7 +100,7 @@ async function getAllRegister() {
   return products;
 }
 
-// 在页面中展示所有已注册用户
+// Show all registered products on the page
 function showAllRegister() {
   getAllRegister().then(function(list) {
     $("#productListA").html('');
@@ -109,6 +110,7 @@ function showAllRegister() {
   })
 }
 
+// Add user
 function addPRCUser() {
   var prcInstance;
   var userAddress = $("#userAddressA").val();
@@ -124,6 +126,7 @@ function addPRCUser() {
   });
 }
 
+// Remove user
 function removePRCUser() {
   var prcInstance;
   var userAddress = $("#userAddressA").val();
@@ -139,6 +142,7 @@ function removePRCUser() {
   });
 }
 
+// Check user
 function checkPRCUser() {
   var prcInstance;
   var userAddress = $("#userAddressA").val();
@@ -150,7 +154,7 @@ function checkPRCUser() {
   });
 }
 
-// 微博平台基本信息
+// Platform information
 function getPlantformInfo() {
   $("#plantformAddressA").html(prcAddress);
 }
@@ -175,6 +179,7 @@ function getProductOfCode() {
   });
 }
 
+// Add batch information
 function addBatch() {
   var bacInstance;
   var productBatch = $("#productBatchB").val();
@@ -216,7 +221,7 @@ function getBatch(id) {
   });
 }
 
-// 微博平台上所有注册用户
+// The number of all added batches
 function getTotalProductBatch() {
   return BAC.at(bacAddress).then(function(instance) {
     bacInstance = instance;
@@ -226,7 +231,7 @@ function getTotalProductBatch() {
   });
 }
 
-//查看平台所有已注册的微博账户
+// All added batches
 async function getAllBatch() {
   let batchs = [];
   let total = await getTotalProductBatch();
@@ -238,7 +243,7 @@ async function getAllBatch() {
 
 }
 
-// 在页面中展示所有已注册用户
+// Show all added batches on the page
 function showAllBatch() {
   getAllBatch().then(function(list) {
     $("#batchListB").html('');
@@ -289,7 +294,6 @@ function checkBACUser() {
   });
 }
 
-// 微博平台基本信息
 function getProductInfo() {
   $("#productNameB").html('');
   $("#rawMaterialsB").html('');
@@ -318,6 +322,7 @@ function getTrOfCodeAndBatch() {
   });
 }
 
+// Update transaction information
 function addTr() {
   var tucInstance;
   var referenceTx = $("#referenceTxC").val();
@@ -357,7 +362,7 @@ function getTr(id) {
   });
 }
 
-// 微博平台上所有注册用户
+// The number of all updated transactions
 function getTotalProductTr() {
   return TUC.at(tucAddress).then(function(instance) {
     tucInstance = instance;
@@ -367,7 +372,7 @@ function getTotalProductTr() {
   });
 }
 
-//查看平台所有已注册的微博账户
+// All updated transactions
 async function getAllTr() {
   let trs = [];
   let total = await getTotalProductTr();
@@ -378,7 +383,7 @@ async function getAllTr() {
   return trs;
 }
 
-// 在页面中展示所有已注册用户
+// Show all updated transactions on the page
 function showAllTr() {
   getAllTr().then(function(list) {
     $("#transactionListC").html('');
@@ -433,6 +438,7 @@ function getBatchAddress() {
   $("#batchAddressC").html('');
 }
 
+// Loading page
 window.onload = function() {
 
   getPlantformInfo();

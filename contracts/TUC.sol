@@ -2,8 +2,10 @@ pragma solidity ^ 0.4 .10;
 
 contract TUC {
 
+  // Mapping from user address to boolean type
   mapping(address => bool) isAuthorized;
 
+  // Define struct
   struct tr {
     string _currentTx;
     string _previousTx;
@@ -18,6 +20,7 @@ contract TUC {
 
   address _batchAdmin;
 
+  // As a prerequisite for some functions
   modifier onlyAdmin {
     require(msg.sender == _batchAdmin);
     _;
@@ -28,13 +31,13 @@ contract TUC {
     _;
   }
 
-  //初始化
+  // Constructor function
   constructor() public {
-    _batchAdmin = msg.sender; //账户管理者部署该合约
+    _batchAdmin = msg.sender;
     _numberOfTrs = 1;
   }
 
-  //添加产品交易记录
+  // Update transaction information
   function addTr(string currentTx, string previousTx, string re) public onlyAuthorized(msg.sender) {
 
     trs[_numberOfTrs]._currentTx = currentTx;
@@ -47,6 +50,7 @@ contract TUC {
 
   }
 
+  // Get transaction information by id
   function getTrOfId(uint id) constant public returns(string currentTx, string previousTx, address se, string re, uint time) {
     currentTx = trs[id]._currentTx;
     previousTx = trs[id]._previousTx;
@@ -55,24 +59,27 @@ contract TUC {
     time = trs[id]._time;
   }
 
-  //获取已注册产品数量
+  // Get the number of transactions
   function getNumberOfTrs() constant public returns(uint numberOfTrs) {
     numberOfTrs = _numberOfTrs - 1;
   }
 
+  // Add user to authorization list
   function addUser(address addr) public onlyAdmin {
     isAuthorized[addr] = true;
   }
 
+  // Remove user
   function removeUser(address addr) public onlyAdmin {
     isAuthorized[addr] = false;
   }
 
+  // Check if the user is authorized
   function checkUser(address addr) constant public returns(bool result) {
     result = isAuthorized[addr];
   }
 
-  //摧毁合约
+  // Destroy the contract
   function deleteContract() public onlyAdmin {
     selfdestruct(_batchAdmin);
   }

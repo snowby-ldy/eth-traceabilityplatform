@@ -2,8 +2,10 @@ pragma solidity ^ 0.4 .10;
 
 contract BAC {
 
+  // Mapping from user address to boolean type
   mapping(address => bool) isAuthorized;
 
+  // Define struct
   struct batch {
     string _productBatch;
     string _materialBatch;
@@ -22,7 +24,7 @@ contract BAC {
 
   address _productAdmin;
 
-  //定义修饰符，作为某些功能的先决条件
+  // As a prerequisite for some functions
   modifier onlyAdmin {
     require(msg.sender == _productAdmin);
     _;
@@ -33,13 +35,13 @@ contract BAC {
     _;
   }
 
-  //构造函数
+  // Constructor function
   constructor() public {
-    _productAdmin = msg.sender; //产品所有者部署该合约
+    _productAdmin = msg.sender;
     _numberOfBatchs = 1;
   }
 
-  //
+  // Add production batch information
   function addBatch(string productBatch, string materialBatch, address TUCAddress) public onlyAuthorized(msg.sender) {
 
     require(_batchToAddress[productBatch] == address(0));
@@ -58,6 +60,7 @@ contract BAC {
 
   }
 
+  // Get batch information by id
   function getBatchOfId(uint id) constant public returns(string productBatch, string materialBatch, address batchManager, address TUCAddress, uint addTime) {
 
     productBatch = _batchs[id]._productBatch;
@@ -68,7 +71,7 @@ contract BAC {
 
   }
 
-  //获取已注册产品数量
+  // Get the number of batches
   function getNumberOfBatchs() constant public returns(uint numberOfBatchs) {
     numberOfBatchs = _numberOfBatchs - 1;
   }
@@ -77,19 +80,22 @@ contract BAC {
     addr = _batchToAddress[productBatch];
   }
 
+  // Add user to authorization list
   function addUser(address addr) public onlyAdmin {
     isAuthorized[addr] = true;
   }
 
+  // Remove user
   function removeUser(address addr) public onlyAdmin {
     isAuthorized[addr] = false;
   }
 
+  // Check if the user is authorized
   function checkUser(address addr) constant public returns(bool result) {
     result = isAuthorized[addr];
   }
 
-  //摧毁合约
+  // Destroy the contract
   function deleteContract() onlyAdmin public {
     selfdestruct(_productAdmin);
   }

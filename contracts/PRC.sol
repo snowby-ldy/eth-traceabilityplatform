@@ -2,9 +2,10 @@ pragma solidity ^ 0.4 .10;
 
 contract PRC {
 
+  // Mapping from user address to boolean type
   mapping(address => bool) isAuthorized;
 
-  //定义产品结构体
+  // Define struct
   struct product {
     string _productName;
     string _productCode;
@@ -14,21 +15,18 @@ contract PRC {
     address _BACAddress;
   }
 
-  //产品Id映射到产品
   mapping(uint => product) _products;
 
   mapping(string => uint) _productCodeToId;
 
-  //定义注册的产品数量
   uint _numberOfProducts;
 
-  //定义平台管理者
   address _admin;
 
   mapping(string => string) _productCodeToName;
   mapping(string => address) _productCodeToBACAddress;
 
-  //定义修饰符，作为某些功能的先决条件
+  // As a prerequisite for some functions
   modifier onlyAdmin {
     require(msg.sender == _admin);
     _;
@@ -39,13 +37,13 @@ contract PRC {
     _;
   }
 
-  //构造函数
+  // Constructor function
   constructor() public {
-    _admin = msg.sender; //平台管理者部署该合约
+    _admin = msg.sender;
     _numberOfProducts = 1;
   }
 
-  //注册产品
+  // Register product information
   function productRegister(string productName, string productCode, string rawMaterials, address BACAddress) public onlyAuthorized(msg.sender) {
 
     require(bytes(_productCodeToName[productCode]).length == 0);
@@ -69,7 +67,7 @@ contract PRC {
 
   }
 
-  //注册原料
+  // Register raw material information
   function materialRegister(string materialName, string materialCode, address BACAddress) public onlyAuthorized(msg.sender) {
 
     require(bytes(_productCodeToName[materialCode]).length == 0);
@@ -92,11 +90,12 @@ contract PRC {
 
   }
 
-  //获取已注册产品数量
+  // Get the number of products
   function getNumberOfProducts() constant public returns(uint numberOfProducts) {
     numberOfProducts = _numberOfProducts - 1;
   }
 
+  // Get product information by id
   function getProductOfId(uint id) constant public returns(string productName, string productCode, string rawMaterials, address productOwner, uint timestamp, address BACAddress) {
 
     productName = _products[id]._productName;
@@ -115,19 +114,22 @@ contract PRC {
     addr = _productCodeToBACAddress[productCode];
   }
 
+  // Add user to authorization list
   function addUser(address addr) public onlyAdmin {
     isAuthorized[addr] = true;
   }
 
+  // Remove user
   function removeUser(address addr) public onlyAdmin {
     isAuthorized[addr] = false;
   }
 
+  // Check if the user is authorized
   function checkUser(address addr) constant public returns(bool result) {
     result = isAuthorized[addr];
   }
 
-  //摧毁合约
+  // Destroy the contract
   function deleteContract() public onlyAdmin {
     selfdestruct(_admin);
   }
