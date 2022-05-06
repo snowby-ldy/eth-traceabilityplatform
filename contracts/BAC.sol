@@ -1,103 +1,116 @@
-pragma solidity ^ 0.4 .10;
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.0;
 
 contract BAC {
+    // Mapping from user address to boolean type
+    mapping(address => bool) isAuthorized;
 
-  // Mapping from user address to boolean type
-  mapping(address => bool) isAuthorized;
+    // Define struct
+    struct batch {
+        string _productBatch;
+        string _materialBatch;
+        address _batchManager;
+        address _TUCAddress;
+        uint256 _addTime;
+    }
 
-  // Define struct
-  struct batch {
-    string _productBatch;
-    string _materialBatch;
-    address _batchManager;
-    address _TUCAddress;
-    uint _addTime;
-  }
+    mapping(uint256 => batch) _batchs;
 
-  mapping(uint => batch) _batchs;
+    mapping(string => address) _batchToAddress;
 
-  mapping(string => address) _batchToAddress;
+    mapping(address => string) _addressToBatch;
 
-  mapping(address => string) _addressToBatch;
+    uint256 _numberOfBatchs;
 
-  uint _numberOfBatchs;
+    address payable _productAdmin;
 
-  address _productAdmin;
+    // As a prerequisite for some functions
+    modifier onlyAdmin() {
+        require(msg.sender == _productAdmin);
+        _;
+    }
 
-  // As a prerequisite for some functions
-  modifier onlyAdmin {
-    require(msg.sender == _productAdmin);
-    _;
-  }
+    modifier onlyAuthorized(address addr) {
+        require(isAuthorized[addr] == true);
+        _;
+    }
 
-  modifier onlyAuthorized(address addr) {
-    require(isAuthorized[addr] == true);
-    _;
-  }
+    // Constructor function
+    constructor() {
+        _productAdmin = payable(msg.sender);
+        _numberOfBatchs = 1;
+    }
 
-  // Constructor function
-  constructor() public {
-    _productAdmin = msg.sender;
-    _numberOfBatchs = 1;
-  }
+    // Add production batch information
+    function addBatch(
+        string memory productBatch,
+        string memory materialBatch,
+        address TUCAddress
+    ) public onlyAuthorized(msg.sender) {
+        require(_batchToAddress[productBatch] == address(0));
+        require(bytes(_addressToBatch[TUCAddress]).length == 0);
 
-  // Add production batch information
-  function addBatch(string productBatch, string materialBatch, address TUCAddress) public onlyAuthorized(msg.sender) {
+        require(bytes(productBatch).length == 12);
 
-    require(_batchToAddress[productBatch] == address(0));
-    require(bytes(_addressToBatch[TUCAddress]).length == 0);
+        _batchs[_numberOfBatchs]._productBatch = productBatch;
+        _batchs[_numberOfBatchs]._materialBatch = materialBatch;
+        _batchs[_numberOfBatchs]._batchManager = msg.sender;
+        _batchs[_numberOfBatchs]._TUCAddress = TUCAddress;
+        _batchs[_numberOfBatchs]._addTime = block.timestamp;
+        _batchToAddress[productBatch] = TUCAddress;
 
-    require(bytes(productBatch).length == 12);
+        _numberOfBatchs++;
+    }
 
-    _batchs[_numberOfBatchs]._productBatch = productBatch;
-    _batchs[_numberOfBatchs]._materialBatch = materialBatch;
-    _batchs[_numberOfBatchs]._batchManager = msg.sender;
-    _batchs[_numberOfBatchs]._TUCAddress = TUCAddress;
-    _batchs[_numberOfBatchs]._addTime = now;
-    _batchToAddress[productBatch] = TUCAddress;
+    // Get batch information by id
+    function getBatchOfId(uint256 id)
+        public
+        view
+        returns (
+            string memory productBatch,
+            string memory materialBatch,
+            address batchManager,
+            address TUCAddress,
+            uint256 addTime
+        )
+    {
+        productBatch = _batchs[id]._productBatch;
+        materialBatch = _batchs[id]._materialBatch;
+        batchManager = _batchs[id]._batchManager;
+        TUCAddress = _batchs[id]._TUCAddress;
+        addTime = _batchs[id]._addTime;
+    }
 
-    _numberOfBatchs++;
+    // Get the number of batches
+    function getNumberOfBatchs() public view returns (uint256 numberOfBatchs) {
+        numberOfBatchs = _numberOfBatchs - 1;
+    }
 
-  }
+    function getAddressOfBatch(string memory productBatch)
+        public
+        view
+        returns (address addr)
+    {
+        addr = _batchToAddress[productBatch];
+    }
 
-  // Get batch information by id
-  function getBatchOfId(uint id) constant public returns(string productBatch, string materialBatch, address batchManager, address TUCAddress, uint addTime) {
+    // Add user to authorization list
+    function addUser(address addr) public onlyAdmin {
+        isAuthorized[addr] = true;
+    }
 
-    productBatch = _batchs[id]._productBatch;
-    materialBatch = _batchs[id]._materialBatch;
-    batchManager = _batchs[id]._batchManager;
-    TUCAddress = _batchs[id]._TUCAddress;
-    addTime = _batchs[id]._addTime;
+    // Remove user
+    function removeUser(address addr) public onlyAdmin {
+        isAuthorized[addr] = false;
+    }
 
-  }
+    // Check if the user is authorized
+    function checkUser(address addr) public view returns (bool result) {
+        result = isAuthorized[addr];
+    }
 
-  // Get the number of batches
-  function getNumberOfBatchs() constant public returns(uint numberOfBatchs) {
-    numberOfBatchs = _numberOfBatchs - 1;
-  }
-
-  function getAddressOfBatch(string productBatch) constant public returns(address addr) {
-    addr = _batchToAddress[productBatch];
-  }
-
-  // Add user to authorization list
-  function addUser(address addr) public onlyAdmin {
-    isAuthorized[addr] = true;
-  }
-
-  // Remove user
-  function removeUser(address addr) public onlyAdmin {
-    isAuthorized[addr] = false;
-  }
-
-  // Check if the user is authorized
-  function checkUser(address addr) constant public returns(bool result) {
-    result = isAuthorized[addr];
-  }
-
-  // Destroy the contract
-  function deleteContract() onlyAdmin public {
-    selfdestruct(_productAdmin);
-  }
-
+    // Destroy the contract
+    function deleteContract() public onlyAdmin {
+        selfdestruct(_productAdmin);
+    }
 }
